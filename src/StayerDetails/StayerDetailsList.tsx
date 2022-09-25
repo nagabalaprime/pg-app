@@ -7,6 +7,7 @@ const StayerDetailsList = ({userDataList } : any) => {
   )
   const data = React.useMemo(
     () => userDataList,
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     []
   )
 
@@ -47,7 +48,8 @@ const StayerDetailsList = ({userDataList } : any) => {
           return (
           <div className="blog-comments__avatar mr-3">
             <img
-              src={props.cell.value}  width={50}
+              src={props.cell.value}  width={50} 
+              alt='address-proof'
             />
           </div>
         )
@@ -61,6 +63,7 @@ const StayerDetailsList = ({userDataList } : any) => {
 
       
     ],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     []
   )
 
