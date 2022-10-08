@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import ReactDOM from "react-dom";
 import "./ModalPopup.scss";
 
 const ModalPopup = props => {

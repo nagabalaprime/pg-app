@@ -1,8 +1,5 @@
-import firebase from "firebase/compat";
 import _ from "lodash";
 import React, { useEffect, useState } from "react";
-import ModalPopup from "../../components/ModalPopup/ModalPopup";
-import RoomVacateForm from "../../components/RoomVacateForm/RoomVacateForm";
 import { DBCollection } from "../../types/dbCollection";
 import { fetchDataList } from "../../utils/fetchData";
 import VacatedUserList from "./VacatedUserList";

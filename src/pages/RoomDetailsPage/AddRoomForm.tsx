@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import * as _ from 'lodash';
 import { db } from '../../firebaseConfig';
-import firebase from 'firebase/compat';
 import { DBCollection } from '../../types/dbCollection';
 import { fetchDataList } from '../../utils/fetchData';
 

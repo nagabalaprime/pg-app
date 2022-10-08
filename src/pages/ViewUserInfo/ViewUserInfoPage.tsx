@@ -1,9 +1,8 @@
 import _ from 'lodash'
-import React, { useEffect, useState } from 'react'
-import { db } from '../../firebaseConfig'
-import { DBCollection } from '../../types/dbCollection'
-import { fetchData } from '../../utils/fetchData'
-import './ViewUserInfoStyle.scss'
+import React, { useEffect, useState } from 'react';
+import { DBCollection } from '../../types/dbCollection';
+import { fetchData } from '../../utils/fetchData';
+import './ViewUserInfoStyle.scss';
 
 const ViewUserInfoPage = () => {
   let params = new URL(document.location as any).searchParams

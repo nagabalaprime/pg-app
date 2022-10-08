@@ -3,8 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import { useTable } from 'react-table';
 
 const RoomDetailsList = ({roomList  } : any) => {
-
-
  
   const data = React.useMemo(
     () => roomList,

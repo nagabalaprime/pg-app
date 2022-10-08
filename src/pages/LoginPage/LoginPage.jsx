@@ -1,7 +1,6 @@
 import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AuthContext from "../../utils/context/AuthProvider";
-import useAuth from "../../hooks/useAuth";
 import "./LoginPage.scss";
 
 const LoginPage = () => {

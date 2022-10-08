@@ -2,8 +2,6 @@ import React, { useEffect, useState } from 'react';
 import './RoomAllocateFormStyle.scss';
 import * as _ from 'lodash';
 import { db } from '../../firebaseConfig';
-import firebase from 'firebase/compat';
-import {  setDoc } from "firebase/firestore";
 import { useNavigate } from 'react-router-dom';
 import { DBCollection } from '../../types/dbCollection';
 import { fetchDataList } from '../../utils/fetchData';

@@ -1,4 +1,3 @@
-import firebase from "firebase/compat";
 import _ from "lodash";
 import React, { useEffect, useState } from "react";
 import ModalPopup from "../../components/ModalPopup/ModalPopup";
