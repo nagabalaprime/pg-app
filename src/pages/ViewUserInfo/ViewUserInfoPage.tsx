@@ -68,14 +68,6 @@ const ViewUserInfoPage = () => {
     }
   }
 
-  const renderRoomDetails = () => {
-    return null
-  }
-
-  const renderPaymentDetails = () => {
-    return null
-  }
-
   return (
     <div className='view-user-page'>
       <div className='view-section'>
