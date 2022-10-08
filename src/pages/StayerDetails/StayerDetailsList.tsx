@@ -1,21 +1,27 @@
 import React from 'react';
-import { useTable } from 'react-table'
+import { useNavigate } from 'react-router-dom';
+import { useTable } from 'react-table';
 
-const StayerDetailsList = ({userDataList } : any) => {
-  console.log( 'user data ' ,
-  userDataList
-  )
+const StayerDetailsList = ({userDataList  , vacateUser} : any) => {
+ 
   const data = React.useMemo(
     () => userDataList,
     // eslint-disable-next-line react-hooks/exhaustive-deps
     []
   )
 
+  const navigate = useNavigate();
+
   const columns = React.useMemo(
     () => [
       {
+        Header: 'User ID',
+        accessor: 'userID', 
+     
+      },
+      {
         Header: 'Name',
-        accessor: 'name', // accessor is the "key" in the data
+        accessor: 'name', 
       },
       {
         Header: 'Address',
@@ -53,19 +59,30 @@ const StayerDetailsList = ({userDataList } : any) => {
             />
           </div>
         )
-          }
+         }
       },
       {
         Header: 'Duration of  Stay',
         accessor: 'durationOfStay',
-      },
-      
-
-      
+      }  ,
+      {
+        Header: 'Action',Cell: (props : any) => {
+          const userID = props?.row?.values?.userID;
+          return(<button onClick={()=>{vacateUser(userID)}}>Vacate</button>)
+        }
+      } ,{
+        Header: 'View',Cell: (props : any) => {
+          const userID = props?.row?.values?.userID;
+          return(<button onClick={()=>{navigate(`/viewUser/?userID=${userID}`)}}>View</button>)
+        }
+      }
     ],
     // eslint-disable-next-line react-hooks/exhaustive-deps
     []
   )
+
+  const initialState = { hiddenColumns: ['userID'] };
+
 
   const {
     getTableProps,
@@ -73,10 +90,10 @@ const StayerDetailsList = ({userDataList } : any) => {
     headerGroups,
     rows,
     prepareRow,
-  } = useTable({ columns, data } as any)
+  } = useTable({ columns, data  , initialState} as any)
 
   return (
-    <table {...getTableProps()} style={{ border: 'solid 1px black' }}>
+    <table {...getTableProps()} className="responsive-table">
       <thead>
         {headerGroups.map(headerGroup => (
           <tr {...headerGroup.getHeaderGroupProps()}>
@@ -112,6 +129,7 @@ const StayerDetailsList = ({userDataList } : any) => {
                       border: 'solid 1px gray',
                       background: 'white',
                     }}
+                    data-label={cell?.column?.Header}
                   >
                     {cell.render('Cell')}
                   </td>

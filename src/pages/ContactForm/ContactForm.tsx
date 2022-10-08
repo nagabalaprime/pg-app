@@ -1,14 +1,14 @@
 import moment from 'moment'
 import React, { useState } from 'react'
 import './ContactFormStyle.scss'
-import { db, storage } from '../firebaseConfig'
+import { db, storage } from '../../firebaseConfig'
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage'
 import { useNavigate } from 'react-router-dom'
+import { DBCollection } from '../../types/dbCollection'
 
 const ContactForm = () => {
+  const navigate = useNavigate()
 
-  const navigate = useNavigate();
-  
   const UserContact = {
     name: 'name',
     stayerAddress: 'stayerAddress',
@@ -32,20 +32,20 @@ const ContactForm = () => {
     proffessionalName: '',
     visitPurpose: 'student',
     addressProof: '',
-    durationOfStay: 0
+    durationOfStay: 0,
   }
 
   interface IUserContact {
-    name: string
-    stayerAddress: string
-    mobile: number
-    dateOfArrival: Date
-    comingForm: string
-    proffessionalAddress: string
-    visitPurpose: string
-    addressProof: string
-    durationOfStay: number
-    proffessionalName: string
+    name: string;
+    stayerAddress: string;
+    mobile: number;
+    dateOfArrival: Date;
+    comingForm: string;
+    proffessionalAddress: string;
+    visitPurpose: string;
+    addressProof: string;
+    durationOfStay: number;
+    proffessionalName: string;
   }
 
   const [contactDetails, setContactDetails] = useState(intialState)
@@ -53,17 +53,17 @@ const ContactForm = () => {
 
   const postFormData = async (event: any) => {
     event?.preventDefault()
-    setLoader(true);
+    setLoader(true)
     try {
       const uploadedImageURL = await uploadImage()
       const appendContactData = {
         ...contactDetails,
         [UserContact.addressProof]: uploadedImageURL
       }
-      await db.collection('userData').add({ ...appendContactData });
+      await db.collection(DBCollection.UserInfo).add({ ...appendContactData , status: 'requested' })
       alert('record got saved successfully');
-      navigate('/stayerDetails');
-      setContactDetails({...intialState});
+      navigate('/contact');
+      setContactDetails({ ...intialState });
     } catch (exception) {
       alert('error' + exception);
     } finally {
@@ -224,8 +224,9 @@ const ContactForm = () => {
               id={UserContact.durationOfStay}
             />
           </div>
+       
           <div className='form-submit'>
-            <button className="submit-btn"> submit</button>
+            <button className='submit-btn'> submit</button>
           </div>
         </form>
       )}
