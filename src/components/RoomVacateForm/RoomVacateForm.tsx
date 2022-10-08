@@ -106,12 +106,11 @@ const RoomVacateForm = ({ userID }: any) => {
           await db.collection(DBCollection.UserInfo).doc(userID).update({status:'vacated'});
           await db.collection(DBCollection.PaymentInfo).doc(vacatedUser.paymentID).update({status:'fully paid' });
           await db.collection(DBCollection.RoomInfo).doc(vacatedUser.roomID).update({status:'vacant' ,['userID']: deleteField() });
-          navigate('/stayer');
         }
       } catch(exception){
         alert('error occured');
       } finally{
-
+        navigate('/vacated');
       }
     
      

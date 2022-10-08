@@ -13,7 +13,6 @@ const VacatedUserPage = () => {
 
     //@ts-ignore
     setUserDataList([...dataList]);
-    console.log('data list' , dataList);
   };
 
   useEffect(() => {
