@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTable } from 'react-table';
 
-const StayerDetailsList = ({userDataList  , vacateUser} : any) => {
+const VacatedUserList = ({userDataList  } : any) => {
  
   const data = React.useMemo(
     () => userDataList,
@@ -15,8 +15,8 @@ const StayerDetailsList = ({userDataList  , vacateUser} : any) => {
   const columns = React.useMemo(
     () => [
       {
-        Header: 'User ID',
-        accessor: 'userID', 
+        Header: 'Vacated User ID',
+        accessor: 'vacatedUserID', 
      
       },
       {
@@ -65,15 +65,10 @@ const StayerDetailsList = ({userDataList  , vacateUser} : any) => {
         Header: 'Duration of  Stay',
         accessor: 'durationOfStay',
       }  ,
-      {
-        Header: 'Action',Cell: (props : any) => {
-          const userID = props?.row?.values?.userID;
-          return(<button onClick={()=>{vacateUser(userID)}}>Vacate</button>)
-        }
-      } ,{
+      ,{
         Header: 'View',Cell: (props : any) => {
-          const userID = props?.row?.values?.userID;
-          return(<button onClick={()=>{navigate(`/viewUser/?userID=${userID}`)}}>View</button>)
+          const vacatedUserID = props?.row?.values?.vacatedUserID;
+          return(<button onClick={()=>{navigate(`/viewVacatedUser/?vacatedUserID=${vacatedUserID}`)}}>View</button>)
         }
       }
     ],
@@ -81,7 +76,7 @@ const StayerDetailsList = ({userDataList  , vacateUser} : any) => {
     []
   )
 
-  const initialState = { hiddenColumns: ['userID'] };
+  const initialState = { hiddenColumns: ['vacatedUserID'] };
 
 
   const {
@@ -142,6 +137,6 @@ const StayerDetailsList = ({userDataList  , vacateUser} : any) => {
     </table>
   )
 }
-export default StayerDetailsList
+export default VacatedUserList;
 
 

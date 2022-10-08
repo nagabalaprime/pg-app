@@ -3,6 +3,7 @@ import * as _ from 'lodash';
 import { db } from '../../firebaseConfig';
 import firebase from 'firebase/compat';
 import { DBCollection } from '../../types/dbCollection';
+import { fetchDataList } from '../../utils/fetchData';
 
 const AddRoomForm = ({onClose} : any) => {
 
@@ -10,7 +11,8 @@ const AddRoomForm = ({onClose} : any) => {
     roomType: 'roomType',
     roomNo: 'roomNo',
     status: 'status',
-    sharing: 'sharing'
+    sharing: 'sharing',
+    roomID: 'roomID'
   }
 
   const intialState: IAddRoom = {
@@ -37,14 +39,9 @@ const AddRoomForm = ({onClose} : any) => {
   }, [])
 
   const fetchRoomInfo = async ()=>{
-    const response= await db.collection(DBCollection.RoomInfo).get();
-    const roomList: firebase.firestore.DocumentData[] = [];
-    response.docs.forEach(item=>{
-      const updatedItemWithID = {...item.data() , roomID: item.id}
-      roomList.push(updatedItemWithID);
-     });
+    const roomDataList  = await fetchDataList(DBCollection.RoomInfo ,AddRoom.roomID )
      //@ts-ignore
-     setRoomInfoList([...roomList]);
+     setRoomInfoList([...roomDataList]);
   }
 
   const postFormData = async (event: any) => {

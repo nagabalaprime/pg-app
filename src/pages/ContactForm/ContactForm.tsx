@@ -5,22 +5,12 @@ import { db, storage } from '../../firebaseConfig'
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage'
 import { useNavigate } from 'react-router-dom'
 import { DBCollection } from '../../types/dbCollection'
+import { UserContact } from '../../types/fieldNames'
 
 const ContactForm = () => {
   const navigate = useNavigate()
 
-  const UserContact = {
-    name: 'name',
-    stayerAddress: 'stayerAddress',
-    mobile: 'mobile',
-    dateOfArrival: 'dateOfArrival',
-    comingForm: 'comingForm',
-    proffessionalAddress: 'proffessionalAddress',
-    visitPurpose: 'visitPurpose',
-    addressProof: 'addressProof',
-    durationOfStay: 'durationOfStay',
-    proffessionalName: 'proffessionalName'
-  }
+ 
 
   const intialState: IUserContact = {
     name: '',

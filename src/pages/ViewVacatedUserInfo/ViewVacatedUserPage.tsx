@@ -1,37 +1,27 @@
 import _ from 'lodash'
-import React, { useEffect, useState } from 'react'
-import { db } from '../../firebaseConfig'
+import React, { useEffect, useState } from 'react';
 import { DBCollection } from '../../types/dbCollection'
 import { fetchData } from '../../utils/fetchData'
-import './ViewUserInfoStyle.scss'
+import './ViewVacatedUserStyle.scss'
 
-const ViewUserInfoPage = () => {
+const ViewVacatedUserPage = () => {
   let params = new URL(document.location as any).searchParams
-  let userID = params.get('userID')
+  let vacatedUserID = params.get('vacatedUserID');
+  const [userData, setUserData] = useState({});
 
-  const [contactDetails, setContactDetails] = useState({})
-  const [roomDetails, setRoomDetails] = useState({})
-  const [paymentDetails, setPaymentDetails] = useState({})
+ 
 
   useEffect(() => {
     async function fetchDetails () {
-      const userResponse = await fetchData(DBCollection.UserInfo, userID + '')
-
-      if (userResponse) {
-        const roomResponse = await fetchData(DBCollection.RoomInfo, userResponse.roomID)
-        const paymentResponse = await fetchData(
-          DBCollection.PaymentInfo,
-          userResponse.paymentID
-        )
-        setContactDetails({ ...userResponse })
-        setRoomDetails({ ...roomResponse })
-        setPaymentDetails({ ...paymentResponse })
-      }
+      const userResponse = await fetchData(DBCollection.VacateUserInfo, vacatedUserID + '')
+      //@ts-ignore
+      setUserData({...userResponse});
+     
     }
-    if (!!userID) {
+    if (!!vacatedUserID) {
       fetchDetails();
     }
-  }, [userID])
+  }, [vacatedUserID])
 
   const covertCamelToTitle = (text = '') => {
     const result = text.replace(/([A-Z])/g, ' $1')
@@ -69,30 +59,16 @@ const ViewUserInfoPage = () => {
     }
   }
 
-  const renderRoomDetails = () => {
-    return null
-  }
 
-  const renderPaymentDetails = () => {
-    return null
-  }
 
   return (
     <div className='view-user-page'>
       <div className='view-section'>
-        <h3>Contact Details</h3>
-        <div className='view-card'>{renderContactDetails(contactDetails)}</div>
-      </div>
-      <div className='view-section'>
-        <h3>Room Details</h3>
-        <div className='view-card'>{renderContactDetails(roomDetails)}</div>
-      </div>
-      <div className='view-section'>
-        <h3>Payment Details</h3>
-        <div className='view-card'>{renderContactDetails(paymentDetails)}</div>
+        <h3>User Details</h3>
+        <div className='view-card'>{renderContactDetails(userData)}</div>
       </div>
     </div>
   )
 }
 
-export default ViewUserInfoPage
+export default ViewVacatedUserPage

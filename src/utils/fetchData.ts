@@ -8,3 +8,16 @@ export async function fetchData (documentName ='', documentID=''){
         return responseData;
     }
    }
+
+   export async function fetchDataList (documentName ='', keyID=''){
+    const response =  await db.collection(documentName).get();
+    //@ts-ignore
+    const dataList = [];
+    response.docs.forEach(item=>{
+        const updatedItemWithID = {...item.data() , [keyID]: item.id}
+        dataList.push(updatedItemWithID);
+       });
+       
+    //@ts-ignore
+    return dataList;
+   }

@@ -6,6 +6,7 @@ import firebase from 'firebase/compat';
 import {  setDoc } from "firebase/firestore";
 import { useNavigate } from 'react-router-dom';
 import { DBCollection } from '../../types/dbCollection';
+import { fetchDataList } from '../../utils/fetchData';
 
 interface IProps {
     userID: string;
@@ -25,7 +26,8 @@ const RoomAllocateForm = ({userID}: IProps) => {
     roomNo: 'roomNo',
     status: 'status',
     advance: 'advance',
-    unitStart: 'unitStart'
+    unitStart: 'unitStart', 
+    roomID: 'roomID'
   }
 
   const intialState: IRoomAllocate = {
@@ -54,21 +56,21 @@ const RoomAllocateForm = ({userID}: IProps) => {
 
   useEffect(() => {
     fetchRoomInfo();
-  }, [])
+  }, []);
   
 
   const fetchRoomInfo = async ()=>{
-    const response=db.collection(DBCollection.RoomInfo);
-    const data=await response.get();
-    const roomList: firebase.firestore.DocumentData[] = [];
-    data.docs.forEach(item=>{
-      const updatedItemWithID : any = {...item.data() , roomID: item.id}
-      if(updatedItemWithID.status === 'vacant'){
-        roomList.push(updatedItemWithID);
+    const dataList = await fetchDataList(DBCollection.RoomInfo , RoomAllocate.roomID);
+   if(!_.isEmpty(dataList)){
+    const vacantRoomList = dataList.filter(data=>{
+      if(data.status === 'vacant') {
+        return data;
       }
-     });
-     //@ts-ignore
-     setRoomInfoList([...roomList]);
+    });
+    //@ts-ignore
+    setRoomInfoList([...vacantRoomList])
+   }
+    
   }
 
   const postFormData = async (event: any) => {
@@ -78,6 +80,7 @@ const RoomAllocateForm = ({userID}: IProps) => {
    
     if(roomID){
       try{
+        setLoader(true)
         await db.collection(DBCollection.RoomInfo).doc(roomID).update({status: 'allocated' , userID})
         const paymentRef : any = await db.collection(DBCollection.PaymentInfo).add({...userPaymentDetails , status: 'partially paid'});
         const updatedUserInfo  = {status:'allocated'  , 'paymentID' : paymentRef.id ,roomID};
@@ -85,12 +88,13 @@ const RoomAllocateForm = ({userID}: IProps) => {
         navigate('/stayer')
       }catch(error){
         alert('error occured while saving');
+      }finally {
+        setLoader(false);
       }
     }
   }
 
   const onChangeText = (event: any) => {
-    debugger;
     const textValue = event.target.value;
     let updatedAllocatedUser = {...allocateUser};
     if(event.target.name === RoomAllocate.roomNo){
