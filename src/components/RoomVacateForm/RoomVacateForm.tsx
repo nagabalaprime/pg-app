@@ -128,8 +128,6 @@ const RoomVacateForm = ({ userID }: any) => {
       setVacatedUser({ ...vacatedUser, ['totalPaid']: (roomCost-advance) });
     }
 
-    
-
     return (
       <form
           className='room-vacate-form'
